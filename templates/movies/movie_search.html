@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Search Results - Movie Database{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Search Movies</h1>
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="id_title">Title</label>
+                <input type="text" name="title" id="id_title" class="form-control" placeholder="Search by Title" value="{{ request.GET.title }}">
+            </div>
+            <div class="col-md-3">
+                <label for="id_director">Director</label>
+                <input type="text" name="director" id="id_director" class="form-control" placeholder="Search by Director" value="{{ request.GET.director }}">
+            </div>
+            <div class="col-md-3">
+                <label for="id_genre">Genre</label>
+                <input type="text" name="genre" id="id_genre" class="form-control" placeholder="Search by Genre" value="{{ request.GET.genre }}">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-group mb-0">
+                    <label>&nbsp;</label>
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-primary mr-2">Search</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {% if query %}
+    <h2 class="mt-4">Search Results For:
+        {% if query.title %} Title: "{{ query.title }}"{% endif %}
+        {% if query.director %}{% if query.title %}, {% endif %} Director: "{{ query.director }}"{% endif %}
+        {% if query.genre %}{% if query.director or query.title %}, {% endif %} Genre: "{{ query.genre }}"{% endif %}
+    </h2>
+    {% endif %}
+
+    {% if results %}
+    <div class="row">
+        {% for movie in results %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if movie.cover_image %}
+                <img src="{{ movie.cover_image.url }}" class="card-img-top img-thumbnail" alt="{{ movie.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ movie.title }}</h5>
+                    <p class="card-text">{{ movie.description }}</p>
+                    <a href="{% url 'movie_detail' movie.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-md-12">
+            <p class="text-center">No results found.</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="col-md-12">
+        <p class="text-center">No results found.</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function resetForm() {
+        document.getElementById("id_title").value = "";
+        document.getElementById("id_director").value = "";
+        document.getElementById("id_genre").value = "";
+         // Submit the form after resetting to clear the results
+        document.querySelector('form').submit();
+    }
+</script>
+{% endblock %}

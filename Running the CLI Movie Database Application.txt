@@ -1,0 +1,27 @@
+## Write all in bash ##
+
+$ cd movie_database_cli
+
+1. To add a new movie:
+
+$ python movie_database.py movadd "Baywatch" "Description" "2000" "Director" "Genre"
+
+
+2. To list all movies:
+
+$ python movie_database.py movlst
+
+
+3. To get details of a specific movie (replace <movie_id> with an actual ID):
+
+$ python movie_database.py movdt <movie_id>
+
+
+4. To search for movies by title:
+
+$ python movie_database.py movsrch "search_query"
+
+
+5. To mark a movie as favorite (replace <movie_id> with an actual ID):
+
+$ python movie_database.py movfv <movie_id>

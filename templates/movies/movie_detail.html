@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{ movie.title }} - Movie Database{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            {% if movie.cover_image %}
+                <img src="{{ movie.cover_image.url }}" class="img-fluid rounded" alt="{{ movie.title }}">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h1>{{ movie.title }}</h1>
+            <p><strong>Description:</strong> {{ movie.description }}</p>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+            <p><strong>Director:</strong> {{ movie.director }}</p>
+            <p><strong>Genre:</strong> {{ movie.genre }}</p>
+            
+            {% if is_favorite %}
+                <form id="unfavorite-form" method="post" action="{% url 'movie_unfavorite' movie.id %}">
+                    {% csrf_token %}
+                    <button id="unfavorite-btn" type="submit" class="btn btn-danger">Remove from Favorites</button>
+                </form>
+            {% else %}
+                <form id="favorite-form" method="post" action="{% url 'movie_favorite' movie.id %}">
+                    {% csrf_token %}
+                    <button id="favorite-btn" type="submit" class="btn btn-primary">Add to Favorites</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

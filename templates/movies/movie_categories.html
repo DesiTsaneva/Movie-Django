@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Movie Categories - Movie Database{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <!-- Most Liked Movies -->
+        <div class="mb-5">
+            <h2>Most Liked</h2>
+            <div class="row">
+                {% for movie in most_liked_movies %}
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <a href="{% url 'movie_detail' movie.id %}">
+                                {% if movie.cover_image %}
+                                    <img src="{{ movie.cover_image.url }}" class="card-img-top" alt="{{ movie.title }}">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/300x450.png?text=No+Image" class="card-img-top" alt="No Image">
+                                {% endif %}
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ movie.title }}</h5>
+                                <p class="card-text text-muted">{{ movie.description|truncatechars:80 }}</p>
+                                <a href="{% url 'movie_detail' movie.id %}" class="btn btn-primary">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Newest Movies -->
+        <div class="mb-5">
+            <h2>Newest</h2>
+            <div class="row">
+                {% for movie in newest_movies %}
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <a href="{% url 'movie_detail' movie.id %}">
+                                {% if movie.cover_image %}
+                                    <img src="{{ movie.cover_image.url }}" class="card-img-top" alt="{{ movie.title }}">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/300x450.png?text=No+Image" class="card-img-top" alt="No Image">
+                                {% endif %}
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ movie.title }}</h5>
+                                <p class="card-text text-muted">{{ movie.description|truncatechars:80 }}</p>
+                                <a href="{% url 'movie_detail' movie.id %}" class="btn btn-primary">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h1 class="mb-4">Movie Genres</h1>
+        <!-- Movies by Genre -->
+        {% for genre, top_movies in top_movies_by_genre.items %}
+            <div class="mb-5">
+                <h2>{{ genre }}</h2>
+                <div class="row">
+                    {% for movie in top_movies %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100">
+                                <a href="{% url 'movie_detail' movie.id %}">
+                                    {% if movie.cover_image %}
+                                        <img src="{{ movie.cover_image.url }}" class="card-img-top" alt="{{ movie.title }}">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/300x450.png?text=No+Image" class="card-img-top" alt="No Image">
+                                    {% endif %}
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ movie.title }}</h5>
+                                    <p class="card-text text-muted">{{ movie.description|truncatechars:80 }}</p>
+                                    <a href="{% url 'movie_detail' movie.id %}" class="btn btn-primary">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
